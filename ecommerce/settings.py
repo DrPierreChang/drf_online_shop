@@ -15,7 +15,7 @@ SECRET_KEY = "django-insecure-7&!#7=cld5i23&(y_t(cs05*50$%3u0w_gcb^vv@%xhpozb(j&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "debug_toolbar",
     "ecommerce.inventory",
     "ecommerce.drf",
     "ecommerce.demo",
@@ -46,6 +47,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "ecommerce.urls"
@@ -143,3 +145,9 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute="0", hour="1"),
     },
 }
+
+if DEBUG:
+    import socket  # only if you haven't already imported this
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1",
+                                                                 "10.0.2.2"]

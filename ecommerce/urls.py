@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from ecommerce.drf.views import (
     CategoryList,
@@ -17,7 +17,5 @@ urlpatterns = [
     ),
     path("api/inventory/<int:query>/", ProductInventoryByWebId.as_view()),
     path("api/search/<str:query>/", SearchProductInventory.as_view()),
+    path('__debug__/', include("debug_toolbar.urls")),
 ]
-
-
-
